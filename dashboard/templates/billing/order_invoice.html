@@ -1,0 +1,251 @@
+{% load static %}
+{% load custom_filters %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice_{{object.id|get_invoice_number}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cinzel:wght@500;600&family=Montserrat:wght@400;600&family=Poppins:wght@200;300;400&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cinzel:wght@500;600&family=Montserrat:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+
+        *
+        {
+            font-size:0.81rem!important;
+        }
+
+        .invoice-wrapper {
+            margin: 1rem 1.5rem;
+            width: 650px;
+            background-color: #f7f7f7;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 3px;
+        }
+
+        .invoice-heading h3 {
+            font-family: 'Cinzel';
+            font-weight: 600;
+        }
+
+        .billed-heading h6 {
+            font-weight: bold;
+        }
+
+        .invoice-address-details span {
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table th {
+            border-top: 1px solid #c0c0c0;
+        }
+
+        table th,
+        table td {
+            padding: 0.45rem;
+            border-bottom: 1px solid #c0c0c0;
+            font-size: 0.9rem;
+        }
+
+        table th:first-child,
+        table td:first-child {
+            width: 40%;
+        }
+
+        table th:not(:first-child),
+        table td:not(:first-child) {
+            width: max-content;
+            text-align: center;
+        }
+
+        table tr:last-child>td:first-child,
+        table tr:last-child>td:nth-child(2),
+        table tr:nth-last-child(2)>td:first-child,
+        table tr:nth-last-child(2)>td:nth-child(2),
+        table tr:nth-last-child(3)>td:first-child,
+        table tr:nth-last-child(3)>td:nth-child(2) {
+            border-bottom: 0;
+        }
+
+        .payment-info h6,
+        .invoice-generator h6 {
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .payment-info span,
+        .invoice-generator span {
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .invoice-generator h6 {
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div class="invoice-container py-5 d-flex align-items-center justify-content-center">
+            <div class="container invoice-wrapper p-4">
+                <section class="invoice-header-section">
+                    <div class="invoice-header d-flex justify-content-between align-items-center">
+                        <div class="invoice-logo">
+                            <figure class="mb-0">
+                                <img src="{% static 'img/logo/logo.png'%}" alt="logo" width="150">
+                            </figure>
+                        </div>
+                        <div class="invoice-heading">
+                            <h3>INVOICE</h3>
+                        </div>
+                    </div>
+                </section>
+                <section class="invoice-address-details-section py-4">
+                    <div class="row invoice-address-details">
+                        <div class="col-8 col-md-9">
+                            <div class="invoice-address">
+                                <div class="billed-heading">
+                                    <h6>BILLED TO :</h6>
+                                </div>
+                                <div class="billed-person">
+                                    <span>{{object.address.full_name}} </span>
+                                </div>
+                                <div class="billed-person">
+                                    {% if object.customer.email %}
+                                    <span>{{object.address.email}}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="billed-person-contact">
+                                    {% if object.address.phone %}
+                                    <span>{{object.address.phone}}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="billed-person-address">
+                                    {% if object.address %}
+                                    <span>{{object.address}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-3">
+                            <div class="invoice-details text-end">
+                                <div class="invoice-no">
+                                    <span>Invoice No. {{object.id|get_invoice_number}}</span>
+                                </div>
+                                <div class="invoice-date">
+                                    <span>{{order.created_at}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="invoice-table-section">
+                    <div class="invoice-table">
+                        <table>
+                            <tr>
+                                <th style="font-size:0.7rem;">Item</th>
+                                <th style="font-size:0.7rem;">Quantity</th>
+                                <th style="font-size:0.7rem;">Unit Price</th>
+                                <th style="font-size:0.7rem;">Total</th>
+                            </tr>
+                            {% for item in object.order_qty.all %}
+                            <tr>
+                                <td style="font-size:0.7rem;">
+                                    {{item.product.title}}
+                                </td>
+                                <td style="font-size:0.7rem;">
+                                    {{item.quantity}}
+                                </td>
+                                <td style="font-size:0.7rem;">
+                                   Rs. {{item.initial_price}}
+                                </td>
+                                <td style="font-size:0.7rem;">
+                                    Rs. {{item.id|get_product_price}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th style="font-size:0.7rem;">Subtotal</th>
+                                <td style="font-size:0.7rem;">Rs. {{object.initial_price}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th style="font-size:0.7rem;">Shipping Charge</th>
+                                <td style="font-size:0.7rem;">Rs. {{object.shipping_charge}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th style="font-size:0.7rem;">Discount</th>
+                                <td style="font-size:0.7rem;">- Rs.{{object.discount}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th style="font-size:0.7rem;">Tax(0%)</th>
+                                <td style="font-size:0.7rem;">Rs. {{object.tax}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <th style="font-size:0.7rem;">Total</th>
+                                <td style="font-size:0.7rem;">Rs. {{object.amount_to_pay}}</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </section>
+                <section class="invoice-gratitude-section my-4">
+                    <div class="invoice-gratitude text-end px-2">
+                        <h6 style="font-weight: bold;">Thank You!!</h6>
+                    </div>
+                </section>
+                <!-- <section class="invoice-info-details-section mt-4">
+                    <div class="row invoice-info-details align-items-end">
+                        <div class="col-7">
+                            <div class="payment-info">
+                                <h6>PAYMENT INFORMATION</h6>
+                                <span>Briard Bank</span>
+                                <span>Account Name : Samir Hadid</span>
+                                <span>Account No : 1123-345-1224</span>
+                                <span>Pay by : 5 Ju;y 2005</span>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="invoice-generator">
+                                <h6 class="text-end">Samira Hadid</h6>
+                                <span>123 Anywhere St , Any City , ST-123</span>
+                            </div>
+                        </div>
+                    </div>
+                </section> -->
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

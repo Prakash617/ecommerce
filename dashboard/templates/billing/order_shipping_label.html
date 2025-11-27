@@ -1,0 +1,181 @@
+{% load static %}
+{% load custom_filters %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping_Label_Order_#{{object.id}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+<style>
+    .shipping-order {
+        margin: 1rem 1.5rem;
+        width: 600px;
+        background-color: #f7f7f7;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 3px;
+    }
+
+    .shipping-company-id h6,
+    .shipping-company-des h6,
+    .shipping-customer span,
+    .customer-reference-no span,
+    .shipping-order-details h6,
+    .remarks-container h6 {
+        font-weight: bold;
+        margin-bottom: 0;
+        width: 100px;
+        font-size: 0.9rem;
+    }
+
+    .shipping-company-id h6,
+    .shipping-company-des h6,
+    .shipping-company-des span,
+    .shipping-company-id p,
+    .shipping-order-details h6,
+    .shipping-order-details p {
+        margin-bottom: 0;
+        display: block;
+    }
+
+    .shipping-company-des span,
+    .shipping-company-id p,
+    .shipping-customer-details p,
+    .customer-reference-no p {
+        font-size: 0.96rem;
+    }
+
+    .shipping-company-details-wrapper,
+    .shipping-customer-details-wrapper,
+    .shipping-order-details {
+        border-bottom: 2px solid #a7a7a7;
+    }
+
+    .shipping-customer span,
+    .customer-reference-no span {
+        width: 60px;
+    }
+
+    .shipping-company-address-wrapper span:first-child,
+    .shipping-customer-details p:first-child {
+        font-weight: bold;
+    }
+
+    .shipping-order-details div {
+        margin-bottom: 0.4rem;
+    }
+
+    .shipping-order-details h6 {
+        width: 110px;
+    }
+
+    .remarks-container p {
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+    }
+</style>
+
+<body>
+
+    <main class="shipping-order-wrapper">
+
+        <div class="shipping-order-container d-flex align-items-center justify-content-center">
+            <div class="shipping-order my-5 py-2 px-4">
+
+                <div class="d-flex shipping-company-details-wrapper align-items-center py-4">
+                    <div class="col-3">
+                        <figure class="mb-0">
+                            <img src="{% static 'img/logo/logo.png'%}" alt="logo" width="140">
+                        </figure>
+                    </div>
+                    <div class="col-9 px-3">
+                        <div class="shipping-company-details">
+                            <div class="shipping-company-des d-flex justify-content-start">
+                                <h6>FROM : </h6>
+                                <div class="shipping-company-address-wrapper">
+                                    <span class="company-name">Destiny Books Hub.</span>
+                                    <span class="company-address">Jorpati, Kathmandu Nepal</span>
+                                    <span class="company-phone">+977 9812345567</span>
+                                    <span class="company-email">destinybookshub@gmail.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shipping-customer-details-wrapper my-3">
+                    <div class="shipping-customer d-flex">
+                        <span>TO :</span>
+                        <div class="shipping-customer-details">
+                            <p class="mb-0">
+                                <span>{{object.address.full_name}} </span>
+                            </p>
+                            <p class="mb-0">
+                                {% if object.address %}
+                                <span>{{object.address}}</span>
+                                {% endif %}
+                            </p>
+                            <p class="mb-0">
+                                {% if object.address %}
+                                <span>{{object.address.phone}}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="customer-reference-no d-flex my-2">
+                        <span>REF : </span>
+                        <P>DBSH{{object.customer.id}}</P>
+                    </div>
+                </div>
+                <div class="shipping-order-details">
+                    <div class="shipping-order-no d-flex">
+                        <h6>ORDER NO : </h6>
+                        <p>#{{object.uuid}}</p>
+                    </div>
+                    <div class="order-item-no d-flex">
+                        <h6>ITEM NO : </h6>
+                        <p>DBSH{{object.uuid|get_invoice_number}}</p>
+                    </div>
+                    <div class="order-shiping-date d-flex">
+                        <h6>SHIP DATE : </h6>
+                        <p id="shipDate"></p>
+                    </div>
+                    
+                </div>
+               
+
+            </div>
+        </div>
+
+
+    </main>
+
+
+    <script>
+        // Get the current date
+        var currentDate = new Date();
+    
+        // Convert the date to the desired format (e.g., "2 October 2023")
+        var formattedDate = currentDate.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    
+        // Update the content of the <p> element with the new date
+        document.getElementById('shipDate').innerText = formattedDate;
+    </script>
+
+</body>
+
+</html>
