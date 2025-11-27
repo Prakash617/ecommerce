@@ -257,12 +257,6 @@ EMAIL_HOST_PASSWORD = 'oajr txdz jevl ynxg'
 
 
 
-SECRET_KEY="django-insecure-m4dla30faa0w+4mzzn^op9_3rkz@9#^3v4vr96v0)c#8ratso0"
-# DATABASE_PASSWORD=your_database_password_here
-API_KEY='ef34d789754947e586fd12a51899a733'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "481128498110-k72qg7i4abpnrqus0pakiolmo5aurgvt.apps.googleusercontent.com"
-
 
 # load_dotenv()
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
