@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-m4dla30faa0w+4mzzn^op9_3rkz@9#^3v4vr96v0)c#8ratso0"
+SECRET_KEY = "django-insecure-m4dla30faa0w+4mzzn^op9_3rkz@9#^3v4vr96v0)c#8ratso0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "dashboard",
     "order",
-    "payment",
+    # "payment",
     "product",
     "user_accounts",
     "website",
@@ -103,35 +103,12 @@ AUTH_USER_MODEL = "user_accounts.CustomUser"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if DEBUG:
- 
-    # DATABASES = {
-    #         'default': {
-    #             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #             'NAME': 'bookstore',
-    #             'USER': 'bookstore',
-    #             'PASSWORD': 'Destiny!@#123',
-    #             'HOST': 'localhost',
-    #             'PORT': 5432,
-    #         }
-    #     }
-    DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-else:
-    DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': 'bookstore',
-                'USER': 'bookstore',
-                'PASSWORD': 'Destiny!@#123',
-                'HOST': 'localhost',
-                'PORT': 5432,
-            }
-        }
 
 
 

@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny
 from order.models import *
 from bookstore.settings import ip
 from .utils import payment_received
-from bookstore.settings import API_KEY
+# from bookstore.settings import API_KEY
 
 def initkhalti(request,amount,order_id,customer_id):
     url = "https://a.khalti.com/api/v2/epayment/initiate/"
