@@ -195,7 +195,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTHENTICATION_BACKENDS = (
     
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.google.GoogleOAuth2',
+
     # 'rest_framework_social_oauth2.backends.DjangoOAuth2',
 )
 
@@ -259,12 +259,6 @@ EMAIL_HOST_PASSWORD = 'oajr txdz jevl ynxg'
 
 
 # load_dotenv()
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-
-
-# SECRET_KEY = os.environ.get('SECRET_KEY')
-# # DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD')
-# API_KEY = os.environ.get('API_KEY')
 
 CORS_ORIGINS_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
