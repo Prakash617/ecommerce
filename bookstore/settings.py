@@ -21,6 +21,7 @@ ALLOWED_HOSTS = [
     '.ngrok-free.app',
     '.ngrok-free.dev',
     'heterolecithal-grant-unrecommended.ngrok-free.dev',
+    'gowell.edu.np',
 ]
 if DEBUG:
     ip = "http://127.0.0.1:8000"
@@ -62,6 +63,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok-free.app',
     'https://*.ngrok-free.dev',
     'https://heterolecithal-grant-unrecommended.ngrok-free.dev',
+    'gowell.edu.np',
 ]
 
 MIDDLEWARE = [
