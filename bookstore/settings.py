@@ -263,6 +263,7 @@ EMAIL_HOST_PASSWORD = 'oajr txdz jevl ynxg'
 CORS_ORIGINS_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 
+
 DASHUB_SETTINGS = {
     "site_logo": "/static/logo.png",
     "site_icon": "/static/favicon.ico",
