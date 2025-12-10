@@ -131,7 +131,7 @@ class Product(models.Model):
     price = models.FloatField()
     published_date = models.DateField(null=True, blank=True)
     edition = models.CharField(max_length=9999, null=True, blank=True)
-    page_count = models.IntegerField(null=True, blank=True)
+    # page_count = models.IntegerField(null=True, blank=True)
     product_code = models.CharField(max_length=9999, null=True, blank=True)
     weight = models.CharField(max_length=9999, null=True, blank=True)
     language = models.CharField(max_length=9999, choices=Language, default="English")
