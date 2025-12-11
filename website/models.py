@@ -107,10 +107,10 @@ class PrivacyPolicy(models.Model):
 from django.db import models
 
 class Feedback(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200,)
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=20)
-    feedback = models.TextField()
+    feedback = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
