@@ -1,4 +1,4 @@
-
+# views.py
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
@@ -8,9 +8,6 @@ from .forms import FeedbackForm
 from .models import Feedback
 import threading
 import requests
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.conf import settings
 
 def feedback_view(request):
     if request.method == 'POST':
@@ -18,19 +15,27 @@ def feedback_view(request):
         if form.is_valid():
             feedback = form.save()
             
-            # Send thank you email
+            # Send thank you email and SMS
             send_thank_you_email(feedback)
             
-            messages.success(request, 'धन्यवाद! तपाईंको प्रतिक्रिया सफलतापूर्वक पेश गरियो।')
-            return redirect('feedback')
+            # Redirect to success page instead of showing message
+            return redirect('feedback_success', pk=feedback.pk)
     else:
         form = FeedbackForm()
     
     return render(request, 'feedback/form.html', {'form': form})
 
 
+def feedback_success_view(request, pk):
+    """Display success page after form submission"""
+    try:
+        feedback = Feedback.objects.get(pk=pk)
+        return render(request, 'feedback/success.html', {'feedback': feedback})
+    except Feedback.DoesNotExist:
+        return redirect('feedback')
+
+
 def send_sms_async(phone_number: str, message: str, sms_api: str):
-    
     try:
         request_url = "https://sms.aakashsms.com/sms/v3/send"
         payload = {
@@ -38,24 +43,17 @@ def send_sms_async(phone_number: str, message: str, sms_api: str):
             "to": phone_number,
             "text": message
         }
-
         response = requests.post(request_url, json=payload)
         print(f"[SMS THREAD] Response: {response.status_code} - {response.text}")
-
     except Exception as e:
         print(f"[SMS THREAD] Error sending SMS: {e}")
         
+
 def send_sms(phone_number: str, message: str) -> bool:
     try:
         sms_api = "a5c721be4a76bf54964b12641e02a1d680db8f20dfc29aaf2d3a34e05cd2901c"
-        # thread = threading.Thread(
-        #     target=send_sms_async,
-        #     args=(phone_number, message, sms_api),
-        #     daemon=True  # Thread won't prevent system shutdown
-        # )
-        # thread.start()
         send_sms_async(phone_number, message, sms_api)
-        return True  # Immediately return without waiting
+        return True
     except Exception as e:
         print(f"Error starting SMS thread: {e}")
         return False
@@ -67,16 +65,12 @@ def send_email_async(subject, html_content, from_email, to_email):
         email = EmailMultiAlternatives(subject, '', from_email, to_email)
         email.attach_alternative(html_content, "text/html")
         email.send()
-
-    # thread = threading.Thread(target=_send)
-    # thread.start()
     _send()
 
 
 def send_thank_you_email(feedback):
     subject = 'धन्यवाद - Zest Ideology Saving & Credit Co-operative Ltd.'
     from_email = 'Zest Ideology <noreply.zestideologycoop@gmail.com>'
-    
     to_email = [feedback.email]
 
     # Render HTML email
@@ -86,9 +80,8 @@ def send_thank_you_email(feedback):
 
     # Send asynchronously
     send_email_async(subject, html_content, from_email, to_email)
+    
+    # Send SMS
     link = 'https://drive.google.com/file/d/1Warj13mHzeC_LoILGVsmgeaIhf4DfQe0/view'
     sms_message = f'नमस्कार {feedback.name} ज्यू, यस संस्थाको १६ औं वार्षिक साधारण सभामा उपस्थित हुनुभएकोमा हार्दिक स्वागत गर्दछौं। संस्थाको १६ औं वार्षिक प्रतिवेदनको लागि यो लिंकमा जानुहोला। {link}'
     send_sms(feedback.phone, sms_message)
-
-
-
