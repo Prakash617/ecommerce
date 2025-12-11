@@ -48,12 +48,13 @@ def send_sms_async(phone_number: str, message: str, sms_api: str):
 def send_sms(phone_number: str, message: str) -> bool:
     try:
         sms_api = "a5c721be4a76bf54964b12641e02a1d680db8f20dfc29aaf2d3a34e05cd2901c"
-        thread = threading.Thread(
-            target=send_sms_async,
-            args=(phone_number, message, sms_api),
-            daemon=True  # Thread won't prevent system shutdown
-        )
-        thread.start()
+        # thread = threading.Thread(
+        #     target=send_sms_async,
+        #     args=(phone_number, message, sms_api),
+        #     daemon=True  # Thread won't prevent system shutdown
+        # )
+        # thread.start()
+        send_sms_async(phone_number, message, sms_api)
         return True  # Immediately return without waiting
     except Exception as e:
         print(f"Error starting SMS thread: {e}")
@@ -67,8 +68,9 @@ def send_email_async(subject, html_content, from_email, to_email):
         email.attach_alternative(html_content, "text/html")
         email.send()
 
-    thread = threading.Thread(target=_send)
-    thread.start()
+    # thread = threading.Thread(target=_send)
+    # thread.start()
+    _send()
 
 
 def send_thank_you_email(feedback):
