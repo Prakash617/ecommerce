@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>धन्यवाद</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Noto Sans Devanagari', Arial, sans-serif; background-color: #f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    
+                    <!-- Header with Logo -->
+                    <tr>
+                        <td style="padding: 30px 40px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            
+                            <!-- Logo -->
+                            <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'feedback/logo.jpeg' %}"
+                                 alt="Zest Ideology Logo"
+                                 style="height: 90px; border-radius: 10px; margin-bottom: 15px;">
+                            
+                            <h2 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 700;">जेष्ट आइडियोलोजी</h2>
+                            <p style="color: #ffffff; margin: 5px 0 0 0; font-size: 14px;">ZEST IDEOLOGY SAVING & CREDIT CO-OPERATIVE LTD.</p>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td style="padding: 50px 40px; text-align: center;">
+                            <h1 style="color: #2c3e50; font-size: 42px; font-weight: 700; margin: 0 0 30px 0;">धन्यवाद</h1>
+                            
+                            <p style="color: #555; font-size: 18px; line-height: 1.8; margin: 20px 0;">
+                                नमस्कार <strong>{{ name }}</strong> ज्यू
+                            </p>
+                            
+                            <p style="color: #555; font-size: 16px; line-height: 1.8; margin: 20px 0;">
+                                यस संस्थाको १६ औं वार्षिक साधारण सभामा उपस्थित हुनुभएकोमा हार्दिक स्वागत गर्दछौं।
+                            </p>
+                            
+                            <p style="color: #555; font-size: 16px; line-height: 1.8; margin: 20px 0;">
+                                संस्थाको १६ औं वार्षिक प्रतिवेदनको लागि यो लिंकमा जानुहोला।
+                            </p>
+
+                            <!-- Download Button -->
+                            <table cellpadding="0" cellspacing="0" style="margin: 30px auto;">
+                                <tr>
+                                    <td style="background: linear-gradient(135deg, #4a6fa5 0%, #3a5a88 100%); border-radius: 50px; padding: 15px 40px;">
+                                        <a href="#" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 600; display: inline-block;">
+                                            १६ औं वार्षिक प्रतिवेदन ⬇
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="color: #27ae60; font-size: 16px; font-weight: 600; margin: 30px 0 0 0;">
+                                -जेष्ट आइडियोलोजी सहकारी परिवार
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 20px 40px; background-color: #f8f9fa; text-align: center; border-top: 3px solid #667eea;">
+                            <p style="margin: 10px 0; color: #666; font-size: 14px;">
+                                📘 <a href="https://facebook.com/ZestIdeologySavingCreditCoOperativeLtd" style="color: #4267B2; text-decoration: none;">/ZestIdeologySavingCreditCoOperativeLtd</a>
+                            </p>
+                            <p style="margin: 10px 0; color: #666; font-size: 14px;">
+                                🌐 <a href="https://zestideologycoop.com.np" style="color: #667eea; text-decoration: none;">https://zestideologycoop.com.np</a>
+                            </p>
+                            <div style="margin-top: 15px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" style="height: 40px; margin: 0 5px;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" style="height: 40px; margin: 0 5px;">
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

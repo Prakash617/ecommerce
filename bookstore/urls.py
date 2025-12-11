@@ -23,6 +23,7 @@ urlpatterns = [
     path('inventory/',include('inventory.api_urls')),
     path('product/', include('product.api_urls')),
     path('website/',include('website.api_urls')),
+    path('zest/',include('website.urls')),
     path('dashboard/',include('dashboard.api_urls')),
     path('users/',include('user_accounts.api_urls')),
     path('blogs/',include('blog.api_urls')),    
