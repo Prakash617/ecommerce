@@ -1,0 +1,485 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>दर्ता भएका प्रयोगकर्ताहरू - Zest Ideology</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container-custom {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .header-section h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header-section .subtitle {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        }
+
+        .stat-card .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 16px;
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            width: 250px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tbody td {
+            padding: 15px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-secondary {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .date-badge {
+            background: #e7f3ff;
+            color: #0056b3;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .no-data .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            thead th, tbody td {
+                padding: 10px 8px;
+            }
+        }
+
+        .date-stats {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .date-stats h3 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .date-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+
+        .date-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .date-item:last-child {
+            border-bottom: none;
+        }
+
+        .date-item .date {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .date-item .count {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-custom">
+        <!-- Header -->
+        <div class="header-section">
+            <h1>📊 दर्ता भएका प्रयोगकर्ताहरू</h1>
+            <p class="subtitle">Zest Ideology Saving & Credit Co-operative Ltd.</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">👥</div>
+                <div class="number">{{ total_count }}</div>
+                <div class="label">कुल दर्ता</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📧</div>
+                <div class="number">{{ with_email_count }}</div>
+                <div class="label">इमेल सहित</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">💬</div>
+                <div class="number">{{ with_feedback_count }}</div>
+                <div class="label">प्रतिक्रिया सहित</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📱</div>
+                <div class="number">{{ total_count }}</div>
+                <div class="label">सम्पर्क नम्बर</div>
+            </div>
+        </div>
+
+        <!-- Date-wise Registration Stats -->
+        <div class="date-stats">
+            <h3>📅 मिति अनुसार दर्ता</h3>
+            <div class="date-list">
+                {% for reg in registrations_by_date %}
+                <div class="date-item">
+                    <span class="date">{{ reg.date|date:"Y-m-d (l)" }}</span>
+                    <span class="count">{{ reg.count }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>विस्तृत विवरण</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="नाम, इमेल, वा फोन खोज्नुहोस्..." onkeyup="searchTable()">
+                    <button class="export-btn" onclick="exportToCSV()">📥 CSV Export</button>
+                </div>
+            </div>
+
+            {% if feedbacks %}
+            <div class="table-responsive">
+                <table id="feedbackTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>नाम</th>
+                            <th>इमेल</th>
+                            <th>सम्पर्क नम्बर</th>
+                            <th>प्रतिक्रिया</th>
+                            <th>दर्ता मिति</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><strong>{{ feedback.name }}</strong></td>
+                            <td>
+                                {% if feedback.email %}
+                                    <span class="badge badge-success">{{ feedback.email }}</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ feedback.phone }}</td>
+                            <td>
+                                {% if feedback.feedback %}
+                                    <span style="display: block; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ feedback.feedback }}">
+                                        {{ feedback.feedback|truncatewords:10 }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-secondary">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="date-badge">{{ feedback.created_at|date:"Y-m-d H:i" }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="no-data">
+                <div class="icon">📭</div>
+                <h3>कुनै डाटा उपलब्ध छैन</h3>
+                <p>अहिलेसम्म कुनै प्रयोगकर्ता दर्ता भएको छैन।</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('feedbackTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const row = tr[i];
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const textValue = cell.textContent || cell.innerText;
+                        if (textValue.toLowerCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                row.style.display = found ? '' : 'none';
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const table = document.getElementById('feedbackTable');
+            const rows = table.querySelectorAll('tr');
+            let csv = [];
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cols = row.querySelectorAll('td, th');
+                let csvRow = [];
+
+                for (let j = 0; j < cols.length; j++) {
+                    let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/"/g, '""');
+                    csvRow.push('"' + data + '"');
+                }
+
+                csv.push(csvRow.join(','));
+            }
+
+            const csvString = csv.join('\n');
+            const blob = new Blob(['\ufeff' + csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'feedback_registrations_' + new Date().toISOString().split('T')[0] + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

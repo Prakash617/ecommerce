@@ -8,6 +8,8 @@ from .forms import FeedbackForm
 from .models import Feedback
 import threading
 import requests
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 def feedback_view(request):
     if request.method == 'POST':
@@ -85,3 +87,32 @@ def send_thank_you_email(feedback):
     link = 'https://drive.google.com/file/d/1Warj13mHzeC_LoILGVsmgeaIhf4DfQe0/view'
     sms_message = f'नमस्कार {feedback.name} ज्यू, यस संस्थाको १६ औं वार्षिक साधारण सभामा उपस्थित हुनुभएकोमा हार्दिक स्वागत गर्दछौं। संस्थाको १६ औं वार्षिक प्रतिवेदनको लागि यो लिंकमा जानुहोला। {link}'
     send_sms(feedback.phone, sms_message)
+
+def feedback_list_view(request):
+    """Display all registered users with statistics"""
+    # Get all feedbacks ordered by most recent
+    feedbacks = Feedback.objects.all().order_by('-created_at')
+    
+    # Total count
+    total_count = feedbacks.count()
+    
+    # Count with email
+    with_email_count = feedbacks.exclude(email__isnull=True).exclude(email='').count()
+    
+    # Count with feedback
+    with_feedback_count = feedbacks.exclude(feedback__isnull=True).exclude(feedback='').count()
+    
+    # Registration by date
+    registrations_by_date = feedbacks.annotate(
+        date=TruncDate('created_at')
+    ).values('date').annotate(count=Count('id')).order_by('-date')
+    
+    context = {
+        'feedbacks': feedbacks,
+        'total_count': total_count,
+        'with_email_count': with_email_count,
+        'with_feedback_count': with_feedback_count,
+        'registrations_by_date': registrations_by_date,
+    }
+    
+    return render(request, 'feedback/list.html', context)
