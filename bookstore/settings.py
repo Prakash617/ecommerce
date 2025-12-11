@@ -236,10 +236,10 @@ else:
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'noreply.zestideologycoop@gmail.com'
-# EMAIL_HOST_PASSWORD = 'sntnyasfqvelzzjl'
-EMAIL_HOST_USER = 'prakashthapa617@gmail.com'
-EMAIL_HOST_PASSWORD = 'sntnyasfqvelzzjl'
+EMAIL_HOST_USER = 'noreply.zestideologycoop@gmail.com'
+EMAIL_HOST_PASSWORD = 'tptckfrylffkcysq'
+DEFAULT_FROM_EMAIL=  'noreply.zestideologycoop@gmail.com'
+
 
 
 # oajr txdz jevl ynxg

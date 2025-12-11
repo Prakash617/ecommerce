@@ -73,7 +73,8 @@ def send_email_async(subject, html_content, from_email, to_email):
 
 def send_thank_you_email(feedback):
     subject = 'धन्यवाद - Zest Ideology Saving & Credit Co-operative Ltd.'
-    from_email = settings.DEFAULT_FROM_EMAIL
+    from_email = 'Zest Ideology <noreply.zestideologycoop@gmail.com>'
+    
     to_email = [feedback.email]
 
     # Render HTML email
